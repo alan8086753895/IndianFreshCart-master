@@ -29,6 +29,8 @@ urlpatterns = [
     path('cart/',my_views.cart,name="cart"),
 
     path('search/',my_views.search,name="search"),
+    path('seller_rating/<int:pk>',my_views.seller_rating,name="seller_rating"),
+    path('seller_rating2',my_views.seller_rating2,name="seller_rating2"),
 
     path('cart/<int:id>/',my_views.cart,name="cart_update"),
     path('order/',my_views.order,name="order"),

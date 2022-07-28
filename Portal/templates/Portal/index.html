@@ -45,6 +45,9 @@
                         <a class="nav-link" href="{% url 'about' %}">About</a>
                     </li>
                     <li class="nav-item">
+                      <a class="nav-link" href="{% url 'seller_rating2' %}">Sellers Rating</a>
+                  </li>
+                    <li class="nav-item">
                         <!-- <a class="nav-link" href="{% url 'contact' %}">Contact</a> -->
                     </li>
 
@@ -184,9 +187,10 @@
 
               {% if usercheck %}
                     <div id="prod" class="main container mb-5 text-center">
+                      <h3 class="mt-5">Average Ratings are updated at end of the day</h3><hr>
                       <h1 class="mt-5">Products</h1><hr>
                       <div class="row pt-3">
-                          {% for product in prod %}
+                          {% for product,profi in mylist %}
                               <div class="col-12 mx-auto col-sm-6 col-md-4 col-lg-4">
                                   <div class="card mb-4">
                   
@@ -207,6 +211,7 @@
                                         <h4 id="name{{product.id}}" class="card-title">{{product.product_name}}</h4>
                                         <h5 id="location{{product.id}}" class="card-title">{{product.location}}</h4>
                                          <h5 id="category{{product.id}}" class="card-title">{{product.category}}</h4>
+                                        
                                         <!-- Text -->
                                           <p class="card-text">Rs.<span id="price{{product.id}}">{{product.product_price}}</span>/-</p>
                                         <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
@@ -240,6 +245,7 @@
                                                       <p class="mb-4 text-muted">Rs.{{product.product_price}}/-</p>
                                                       <h4 class="float-left mb-3">Description : </h4>
                                                       <h4 class="float-left text-muted">{{product.product_desc}}​</h4>
+                                                
                                                   </div>
                                               </div>
                                         </div>

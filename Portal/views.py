@@ -1,9 +1,11 @@
 from django.shortcuts import render,redirect,HttpResponse
 from django.contrib import messages
-from . forms import Profileform,Productform,Orderform
-from . models import Profile,Product,Order,Comment
+from . forms import Profileform,Productform,Orderform,Ratingform
+from . models import Profile,Product,Order,Comment,User
 from . import signals
 import json
+
+
 
 # Create your views here.
 
@@ -13,8 +15,15 @@ def index(request):
         if prof.usertype=='1':
             usercheck=True
             prod=Product.objects.all()
+            prof=Profile.objects.all()
             order=Order.objects.filter(user=request.user)
-            return render(request,"Portal/index.html",{'usercheck':usercheck,'order':order,'prod':prod})
+            mylist = zip(prod, prof)
+            context = {
+                'mylist': mylist,
+                'order':order,
+                'usercheck':usercheck
+                  }
+            return render(request,"Portal/index.html",context)
         else:
             usercheck=False
             form=Productform()
@@ -297,7 +306,75 @@ def search(request):
             return render(request,"Portal/index.html",{'usercheck':usercheck,'form':form})
 
     return render(request,"Portal/index.html")
+def seller_rating(request,pk):
+    mechanic=Profile.objects.get(id=pk,usertype="2")
+    user=User.objects.get(id=mechanic.user_id)
+    userForm=Ratingform(instance=mechanic)
+    mydict={'userForm':userForm}
+    if request.method=='POST':
+        userForm=Ratingform(request.POST,instance=mechanic)
+        #mechanicForm=forms.MechanicForm(request.POST,request.FILES,instance=mechanic)
+        x = True
+        if userForm.is_valid():
 
+            user=userForm.save()
+            user.save()
+            print("working")
+            mechanics=Profile.objects.filter(usertype="2")
+            return render(request,"Portal/seller.html",{'prod':mechanics})
+
+        print("not wor")
+        
+    return render(request,'Portal/seller2.html',context=mydict)
+
+def seller_rating2(request):
+    mechanics=Profile.objects.filter(usertype="2")
+    return render(request,'Portal/seller.html',{'prod':mechanics})
+
+  
+#def seller_rating(request,pk):
+#     prof = Profile.objects.get(id=pk)
+#     user = request.user
+#     if request.user.is_authenticated:
+#         prof=Profile.objects.get(user=request.user)
+       
+#         form1=Ratingform()
+#         mydict = {'form1':form1}
+#         if prof.usertype=='1':
+#             if request.method=="POST":
+#                 data = request.POST
+#                 photo = Profile.objects.create(
+               
+#                 ratings=data['rate'],
+            
+                
+#             )
+                
+
+
+
+                # x = True
+                # if x:
+                    
+                #     form1= Ratingform(request.POST)
+                #     student = form1.save(commit=False)
+                #     student.user = request.user
+                #     student.save()
+                   
+                #     print(student)
+                    
+                #     print("form")
+               # print("post")
+
+
+                
+    #         print("user1")
+    #         prod=Profile.objects.filter(usertype="2")  
+    #         print(prod) 
+    #         return render(request,"Portal/seller.html",{'prod':prod,'form1':form1})
+    # return render(request,"Portal/index.html",context=mydict)
+
+    
 def profile(request):
     if request.user.is_authenticated:
         profile = request.user.profile
@@ -305,6 +382,7 @@ def profile(request):
         if request.method=="POST":
             form = Profileform(request.POST,instance=profile)
             if form.is_valid():
+                
                 form.save()
                 messages.success(request,'Your profile was saved succesfully !')
                 return redirect('index')

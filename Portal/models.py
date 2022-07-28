@@ -7,7 +7,9 @@ usertype_choices = (
 gender_choices = (
     ('1','Male'),('2','Female'),('3','Other'),
 )
-
+rating = (
+    ('1','1'),('2','2'),('3','3'),('4','4'),('5','5'),
+)
 class Profile(models.Model):
     user=models.OneToOneField(User,null=True,on_delete=models.CASCADE)
     first_name=models.CharField(max_length=100,default="")
@@ -18,6 +20,8 @@ class Profile(models.Model):
     city=models.CharField(max_length=100,default="")
     state=models.CharField(max_length=70,default="")
     country=models.CharField(max_length=50,default="")
+    ratings=models.CharField(max_length=10,choices= rating,default='1')
+
     def __str__(self):
         return self.first_name+"("+self.usertype+")"
 
@@ -31,6 +35,7 @@ class Product(models.Model):
     product_desc=models.TextField(default="")
     product_image=models.ImageField(upload_to="product_images/")
     location=models.CharField(max_length=100,default="")
+    
     def __str__(self):
         return self.product_name
 

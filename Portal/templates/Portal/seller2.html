@@ -1,0 +1,28 @@
+{% extends 'Portal/index.html' %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+<h3 style="text-align:center;">Rating</h3>
+<div>
+  <form method="post"  enctype="multipart/form-data" style="margin-left:200px;margin-right:200px;">
+      {% csrf_token %}
+
+        <label for="first_name">Rating</label>
+        {% render_field userForm.ratings class="form-control" placeholder="ra" %}
+
+       
+
+<br><br>
+    <input type="submit" value="Update">
+  </form>
+</div>
+
+
+
+{% endblock %}
+
+

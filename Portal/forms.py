@@ -6,7 +6,12 @@ class Profileform(forms.ModelForm):
     class Meta:
         model = Profile
         fields = "__all__"
-        exclude=['user']
+        exclude=['user','ratings']
+class Ratingform(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['ratings']
+        
 
 class Productform(forms.ModelForm):
     class Meta:

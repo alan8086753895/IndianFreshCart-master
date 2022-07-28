@@ -1,0 +1,59 @@
+{% extends 'Portal/index.html' %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="row">
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <br>
+        <h6 class="mt-5">Average Ratings are updated at end of the day</h6><hr>
+        <h3 class="panel-title">Farmers</h3>
+
+      </div>
+
+      <table class="table table-hover" id="dev-table">
+        <thead>
+
+          <tr>
+            <th>Name</th>
+            <th>Previous Rating</th>
+            <th>Average  Rating</th>
+            <th>|</th>
+           
+            <th>Rating</th>
+         
+            
+          </tr>
+        </thead>
+        {% for s in prod %}
+        <tr>
+          <td> {{s.first_name}}</td>
+          <td> {{s.ratings}}</td>
+        <td> 
+          <td><a  style="color:red; text-decoration:none;font-size:25px;" href="{% url 'seller_rating' s.id  %}">&#9733;</a></td>
+        </td>
+         
+         
+
+        </tr>
+
+        {% endfor %}
+       
+      </table>
+    </div>
+
+
+  </div>
+</div>
+
+
+{% endblock %}
+
+

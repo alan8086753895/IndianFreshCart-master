@@ -22,6 +22,7 @@ class Profile(models.Model):
     country=models.CharField(max_length=50,default="")
     ratings=models.CharField(max_length=10,choices= rating,default='1')
 
+
     def __str__(self):
         return self.first_name+"("+self.usertype+")"
 
